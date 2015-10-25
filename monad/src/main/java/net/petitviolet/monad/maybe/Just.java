@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import net.petitviolet.monad.func.Function;
 
-public class Just<A> extends Maybe<A> {
+class Just<A> extends Maybe<A> {
     private final A mTarget;
 
     Just(@NonNull A target) {

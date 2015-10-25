@@ -2,7 +2,7 @@ package net.petitviolet.monad.maybe;
 
 import net.petitviolet.monad.func.Function;
 
-public class None<A> extends Maybe<A> {
+class None<A> extends Maybe<A> {
 
     None() {
     }

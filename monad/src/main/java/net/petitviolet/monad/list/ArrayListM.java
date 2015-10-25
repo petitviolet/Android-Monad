@@ -9,6 +9,13 @@ class ArrayListM<A> extends ListM<A> {
     }
 
     @Override
+    public void foreach(Function.F<? super A> func) {
+        for(A item: this) {
+            func.call(item);
+        }
+    }
+
+    @Override
     public <B> ListM<B> map(Function.F1<? super A, ? extends B> func) {
         ListM<B> result = new ArrayListM<>();
         for(A item: this) {

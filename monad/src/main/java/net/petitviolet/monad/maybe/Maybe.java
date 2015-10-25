@@ -11,6 +11,8 @@ abstract public class Maybe<A> {
         return isPresent() ? get() : defaultValue;
     }
 
+    abstract public void foreach(Function.F<? super A> func);
+
     abstract public <B> Maybe<B> map(Function.F1<? super A, ? extends B> func);
 
     abstract public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Maybe<B>> func);

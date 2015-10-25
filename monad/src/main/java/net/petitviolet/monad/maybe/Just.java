@@ -31,6 +31,11 @@ public class Just<A> extends Maybe<A> {
     }
 
     @Override
+    public void foreach(Function.F<? super A> func) {
+        func.call(mAarget);
+    }
+
+    @Override
     public <B> Maybe<B> map(Function.F1<? super A, ? extends B> func) {
         return Maybe.of(func.call(mAarget));
     }

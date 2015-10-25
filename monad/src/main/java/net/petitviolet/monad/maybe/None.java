@@ -28,6 +28,10 @@ public class None<A> extends Maybe<A> {
     }
 
     @Override
+    public void foreach(Function.F<? super A> func) {
+    }
+
+    @Override
     public <B> Maybe<B> map(Function.F1<? super A, ? extends B> func) {
         return new None<>();
     }

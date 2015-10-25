@@ -15,7 +15,7 @@ abstract public class ListM<A> extends ArrayList<A> {
     public ListM<A> subList(int start, int end) {
         List<A> sublist = super.subList(start, end);
         ListM<A> listM = ListM.unit();
-        for(A item: sublist) {
+        for (A item : sublist) {
             listM.add(item);
         }
         return listM;
@@ -29,6 +29,8 @@ abstract public class ListM<A> extends ArrayList<A> {
     public A maybeGetOrElse(int index, A defaultValue) {
         return maybeGet(index).getOrElse(defaultValue);
     }
+
+    public abstract void foreach(Function.F<? super A> func);
 
     public abstract <B> ListM<B> map(Function.F1<? super A, ? extends B> func);
 

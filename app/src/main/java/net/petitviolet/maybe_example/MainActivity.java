@@ -9,9 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.petitviolet.monad.func.Function;
 import net.petitviolet.monad.list.ListM;
 import net.petitviolet.monad.maybe.Maybe;
-import net.petitviolet.monad.func.Function;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,12 +46,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "lambda start↓↓↓↓↓↓↓↓↓↓");
         Maybe<Integer> maybeInt = Maybe.of(x);
         Log.d(TAG, "maybeInt:" + maybeInt);
-        Integer result = maybeInt
+        maybeInt
                 .flatMap(this::findByNumber)
                 .map(integer -> integer + 5)
                 .filter(integer -> integer % 2 == 0)
-                .getOrElse(0);
-        Log.d(TAG, "result:" + result);
+                .foreach(integer -> Log.d(TAG, "result: " + integer));
         Log.d(TAG, "lambda end↑↑↑↑↑↑↑↑↑↑");
     }
 
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         Maybe<Integer> maybeInt = Maybe.of(x);
         Log.d(TAG, "maybeInt:" + maybeInt);
-        Integer result = maybeInt.flatMap(new Function.F1<Integer, Maybe<Integer>>() {
+        maybeInt.flatMap(new Function.F1<Integer, Maybe<Integer>>() {
             @Override
             public Maybe<Integer> call(Integer integer) {
                 return Maybe.of(integer * 2);
@@ -75,23 +74,29 @@ public class MainActivity extends AppCompatActivity {
             public Boolean call(Integer integer) {
                 return integer % 2 == 0;
             }
-        }).getOrElse(0);
-        Log.d(TAG, "result:" + result);
+        }).foreach(new Function.F<Integer>() {
+            @Override
+            public void call(Integer integer) {
+                Log.d(TAG, "result: " + integer);
+            }
+        });
+
         Log.d(TAG, "oldstyle end↑↑↑↑↑↑↑↑↑↑");
     }
 
     private void testListMWithLambda() {
         ListM<Integer> listM = ListM.unit();
         listM.addAll(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-        ListM<String> result = listM.filter(i -> i % 2 == 0)
+        listM.filter(i -> i % 2 == 0)
                 .flatMap(this::alphabets)
-                .map(s -> s + "!");
-        Log.d(TAG, "result:" + result);
+                .map(s -> s + "!")
+                .foreach(s -> Log.d(TAG, s));
     }
 
     private static final ListM<String> ALPHABETS = ListM.unit();
+
     static {
-        for(char a='a'; a <= 'z'; a++) {
+        for (char a = 'a'; a <= 'z'; a++) {
             ALPHABETS.add(String.valueOf(a));
         }
     }

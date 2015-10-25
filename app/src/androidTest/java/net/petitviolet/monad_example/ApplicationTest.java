@@ -1,4 +1,4 @@
-package net.petitviolet.maybe_example;
+package net.petitviolet.monad_example;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

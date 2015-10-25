@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.petitviolet.monad.list.ListM;
 import net.petitviolet.monad.maybe.Maybe;
 import net.petitviolet.monad.func.Function;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
             testMaybeWithLambda(3);
             testMaybeWithLambda(100);
             testMaybeOldStyle(null);
+            testListMWithLambda();
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         });
@@ -76,6 +78,26 @@ public class MainActivity extends AppCompatActivity {
         }).getOrElse(0);
         Log.d(TAG, "result:" + result);
         Log.d(TAG, "oldstyle end↑↑↑↑↑↑↑↑↑↑");
+    }
+
+    private void testListMWithLambda() {
+        ListM<Integer> listM = ListM.unit();
+        listM.addAll(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        ListM<String> result = listM.filter(i -> i % 2 == 0)
+                .flatMap(this::alphabets)
+                .map(s -> s + "!");
+        Log.d(TAG, "result:" + result);
+    }
+
+    private static final ListM<String> ALPHABETS = ListM.unit();
+    static {
+        for(char a='a'; a <= 'z'; a++) {
+            ALPHABETS.add(String.valueOf(a));
+        }
+    }
+
+    private ListM<String> alphabets(int num) {
+        return ALPHABETS.subList(0, num <= ALPHABETS.size() ? num : ALPHABETS.size());
     }
 
     @Override

@@ -5,15 +5,15 @@ import android.support.annotation.NonNull;
 import net.petitviolet.monad.func.Function;
 
 public class Just<A> extends Maybe<A> {
-    private final A mAarget;
+    private final A mTarget;
 
     Just(@NonNull A target) {
-        mAarget = target;
+        mTarget = target;
     }
 
     @Override
     public String toString() {
-        return "Just{" + mAarget + "}";
+        return "Just{" + mTarget + "}";
     }
 
     public boolean isPresent() {
@@ -22,7 +22,7 @@ public class Just<A> extends Maybe<A> {
 
     @Override
     public A get() {
-        return mAarget;
+        return mTarget;
     }
 
     @Override
@@ -32,22 +32,22 @@ public class Just<A> extends Maybe<A> {
 
     @Override
     public void foreach(Function.F<? super A> func) {
-        func.call(mAarget);
+        func.call(mTarget);
     }
 
     @Override
     public <B> Maybe<B> map(Function.F1<? super A, ? extends B> func) {
-        return Maybe.of(func.call(mAarget));
+        return Maybe.of(func.call(mTarget));
     }
 
     @Override
     public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Maybe<B>> func) {
-        return func.call(mAarget);
+        return func.call(mTarget);
     }
 
     @Override
     public Maybe<A> filter(Function.F1<? super A, Boolean> func) {
-        if (func.call(mAarget)) {
+        if (func.call(mTarget)) {
             return this;
         } else {
             return new None<>();

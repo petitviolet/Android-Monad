@@ -1,0 +1,44 @@
+package net.petitviolet.monad.maybe;
+
+import net.petitviolet.monad.func.Function;
+
+public class None<A> extends Maybe<A> {
+
+    None() {
+    }
+
+    @Override
+    public String toString() {
+        return "None{}";
+    }
+
+    @Override
+    public boolean isPresent() {
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public A get() {
+        return null;
+    }
+
+    @Override
+    public A getOrElse(A defaultValue) {
+        return defaultValue;
+    }
+
+    @Override
+    public <B> Maybe<B> map(Function.F1<? super A, ? extends B> func) {
+        return new None<>();
+    }
+
+    @Override
+    public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Maybe<B>> func) {
+        return new None<>();
+    }
+
+    @Override
+    public Maybe<A> filter(Function.F1<? super A, Boolean> func) {
+        return this;
+    }
+}

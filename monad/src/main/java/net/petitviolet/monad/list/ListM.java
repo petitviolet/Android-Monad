@@ -26,7 +26,7 @@ abstract public class ListM<A> extends ArrayList<A> {
         return Maybe.of(get(index));
     }
 
-    public A maybeGetOrElse(int index, A defaultValue) {
+    public A getOrElse(int index, A defaultValue) {
         return maybeGet(index).getOrElse(defaultValue);
     }
 

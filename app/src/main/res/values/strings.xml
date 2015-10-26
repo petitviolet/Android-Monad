@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Example</string>
     <string name="action_settings">Settings</string>
+    <string name="plus_one">Add Form</string>
+    <string name="default_number">0</string>
+    <string name="label_kind">項目</string>
+    <string name="label_plus_or_minus">収入？</string>
+    <string name="label_number">金額</string>
 </resources>

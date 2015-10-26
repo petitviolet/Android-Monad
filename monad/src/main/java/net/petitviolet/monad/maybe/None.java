@@ -13,11 +13,6 @@ class None<A> extends Maybe<A> {
     }
 
     @Override
-    public boolean isPresent() {
-        return Boolean.FALSE;
-    }
-
-    @Override
     public A get() {
         return null;
     }

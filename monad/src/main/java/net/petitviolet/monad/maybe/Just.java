@@ -16,10 +16,6 @@ class Just<A> extends Maybe<A> {
         return "Just{" + mTarget + "}";
     }
 
-    public boolean isPresent() {
-        return Boolean.TRUE;
-    }
-
     @Override
     public A get() {
         return mTarget;
@@ -32,22 +28,22 @@ class Just<A> extends Maybe<A> {
 
     @Override
     public void foreach(Function.F<? super A> func) {
-        func.call(mTarget);
+        func.invoke(mTarget);
     }
 
     @Override
     public <B> Maybe<B> map(Function.F1<? super A, ? extends B> func) {
-        return Maybe.of(func.call(mTarget));
+        return Maybe.of(func.invoke(mTarget));
     }
 
     @Override
     public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Maybe<B>> func) {
-        return func.call(mTarget);
+        return func.invoke(mTarget);
     }
 
     @Override
     public Maybe<A> filter(Function.F1<? super A, Boolean> func) {
-        if (func.call(mTarget)) {
+        if (func.invoke(mTarget)) {
             return this;
         } else {
             return new None<>();

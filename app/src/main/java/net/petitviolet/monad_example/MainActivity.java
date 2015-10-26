@@ -61,22 +61,22 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "maybeInt:" + maybeInt);
         maybeInt.flatMap(new Function.F1<Integer, Maybe<Integer>>() {
             @Override
-            public Maybe<Integer> call(Integer integer) {
+            public Maybe<Integer> invoke(Integer integer) {
                 return Maybe.of(integer * 2);
             }
         }).map(new Function.F1<Integer, Integer>() {
             @Override
-            public Integer call(Integer integer) {
+            public Integer invoke(Integer integer) {
                 return integer + 5;
             }
         }).filter(new Function.F1<Integer, Boolean>() {
             @Override
-            public Boolean call(Integer integer) {
+            public Boolean invoke(Integer integer) {
                 return integer % 2 == 0;
             }
         }).foreach(new Function.F<Integer>() {
             @Override
-            public void call(Integer integer) {
+            public void invoke(Integer integer) {
                 Log.d(TAG, "result: " + integer);
             }
         });

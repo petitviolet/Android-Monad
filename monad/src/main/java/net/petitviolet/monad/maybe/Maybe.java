@@ -17,7 +17,9 @@ abstract public class Maybe<A> {
 
     abstract public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Maybe<B>> func);
 
-    abstract public boolean isPresent();
+    public boolean isPresent() {
+        return this instanceof Just;
+    };
 
     abstract public Maybe<A> filter(final Function.F1<? super A, Boolean> func);
 

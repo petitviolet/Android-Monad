@@ -2,15 +2,15 @@ package net.petitviolet.monad.func;
 
 public interface Function {
     interface F<T> extends Function {
-        void call(T t);
+        void invoke(T t);
     }
 
     interface F0<R> extends Function {
-        R call();
+        R invoke();
     }
 
     interface F1<T, R> extends Function {
-        R call(T t);
+        R invoke(T t);
     }
 }
 

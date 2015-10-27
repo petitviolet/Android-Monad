@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import net.petitviolet.monad.func.Function;
 import net.petitviolet.monad.maybe.Maybe;
+import net.petitviolet.monad.type.Monoid;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +30,10 @@ abstract public class ListM<A> extends ArrayList<A> {
     public A getOrElse(int index, A defaultValue) {
         return maybeGet(index).getOrElse(defaultValue);
     }
+
+    public abstract <B> B foldLeft(B acc, Function.F2<? super B, ? super A, ? super B> func);
+
+    public abstract <B> B foldRight(Function.F2<? super A, ? super B, ? super B> func, B acc);
 
     public abstract void foreach(Function.F<? super A> func);
 

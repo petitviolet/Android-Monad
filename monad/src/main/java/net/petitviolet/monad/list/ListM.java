@@ -52,4 +52,7 @@ abstract public class ListM<A> extends ArrayList<A> {
         Collections.addAll(listM, args);
         return listM;
     }
+
+    public abstract Tuple<ListM<A>, ListM<A>> partition(Function.F1<? super A, Boolean> func);
+
 }

@@ -61,4 +61,17 @@ class ArrayListM<A> extends ListM<A> {
         return result;
     }
 
+    @Override
+    public Tuple<ListM<A>, ListM<A>> partition(final Function.F1<? super A, Boolean> func) {
+        ListM<A> fst = this.filter(func);
+        ListM<A> snd = this.filter(new Function.F1<A, Boolean>() {
+            @Override
+            public Boolean invoke(A a) {
+                return !func.invoke(a);
+            }
+        });
+
+        return new Tuple<>(fst, snd);
+    }
+
 }

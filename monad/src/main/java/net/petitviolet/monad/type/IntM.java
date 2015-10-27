@@ -7,6 +7,7 @@ public class IntM implements Monoid<Integer> {
     private IntM(Integer mValue) {
         this.mValue = mValue;
     }
+
     public static IntM of(int i) {
         return new IntM(i);
     }

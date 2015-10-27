@@ -11,7 +11,7 @@ class ArrayListM<A> extends ListM<A> {
 
     @Override
     public <B> B foldLeft(B acc, Function.F2<? super B, ? super A, ? super B> func) {
-        for(A item: this) {
+        for (A item : this) {
             acc = (B) func.invoke(acc, item);
         }
         return acc;
@@ -19,7 +19,7 @@ class ArrayListM<A> extends ListM<A> {
 
     @Override
     public <B> B foldRight(Function.F2<? super A, ? super B, ? super B> func, B acc) {
-        for(A item: this) {
+        for (A item : this) {
             acc = (B) func.invoke(item, acc);
         }
         return acc;
@@ -27,7 +27,7 @@ class ArrayListM<A> extends ListM<A> {
 
     @Override
     public void foreach(Function.F<? super A> func) {
-        for(A item: this) {
+        for (A item : this) {
             func.invoke(item);
         }
     }
@@ -35,7 +35,7 @@ class ArrayListM<A> extends ListM<A> {
     @Override
     public <B> ListM<B> map(Function.F1<? super A, ? extends B> func) {
         ListM<B> result = new ArrayListM<>();
-        for(A item: this) {
+        for (A item : this) {
             result.add(func.invoke(item));
         }
         return result;
@@ -44,7 +44,7 @@ class ArrayListM<A> extends ListM<A> {
     @Override
     public <B> ListM<B> flatMap(Function.F1<? super A, ? extends ListM<B>> func) {
         ListM<B> result = new ArrayListM<>();
-        for(A item: this) {
+        for (A item : this) {
             result.addAll(func.invoke(item));
         }
         return result;
@@ -53,7 +53,7 @@ class ArrayListM<A> extends ListM<A> {
     @Override
     public ListM<A> filter(Function.F1<? super A, Boolean> func) {
         ListM<A> result = new ArrayListM<>();
-        for(A item: this) {
+        for (A item : this) {
             if (func.invoke(item)) {
                 result.add(item);
             }

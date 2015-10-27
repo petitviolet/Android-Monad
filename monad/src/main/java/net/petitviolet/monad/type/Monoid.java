@@ -7,7 +7,7 @@ public interface Monoid<A> {
 
     A get();
 
-    public static class TypeMismatchException extends Exception{
+    public static class TypeMismatchException extends Exception {
         public TypeMismatchException(String s) {
             super(s);
         }

@@ -2,11 +2,17 @@ package net.petitviolet.monad_example;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import net.petitviolet.monad.list.ListM;
+import net.petitviolet.monad.list.Tuple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,20 +22,12 @@ public class SampleFragment extends Fragment {
     private TextView mSumTextView;
     private TextView mIncomeTextView;
     private TextView mOutcomeTextView;
-    private List<View> mFormLayoutList;
+    private ListM<View> mFormLayoutList;
 
     public SampleFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SampleFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SampleFragment newInstance(String param1, String param2) {
+    public static SampleFragment newInstance() {
         SampleFragment fragment = new SampleFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -49,14 +47,33 @@ public class SampleFragment extends Fragment {
         mSumTextView = (TextView) view.findViewById(R.id.textview_sum);
         mIncomeTextView = (TextView) view.findViewById(R.id.textview_income);
         mOutcomeTextView = (TextView) view.findViewById(R.id.textview_outcome);
-        mFormLayoutList = new ArrayList<>();
         final ViewGroup formContainer = (ViewGroup) view.findViewById(R.id.form_container);
+        mFormLayoutList = ListM.of(formContainer);
 
         mAddFormButton.setOnClickListener(v -> {
+            Tuple<ListM<View>, ListM<View>> partitionLayouts = mFormLayoutList.partition(layout -> ((CheckBox) layout.findViewById(R.id.select_plus_or_minus)).isChecked());
+
+            int income = partitionLayouts.fst
+                    .map(layout -> ((EditText) layout.findViewById(R.id.input_number)).getText().toString())
+                    .filter(s -> !TextUtils.isEmpty(s))
+                    .map(Integer::parseInt)
+                    .foldLeft(0, (acc, i) -> acc + i);
+
+            int outcome = partitionLayouts.snd
+                    .map(layout -> ((EditText) layout.findViewById(R.id.input_number)).getText().toString())
+                    .filter(s -> !TextUtils.isEmpty(s))
+                    .map(Integer::parseInt)
+                    .foldRight((acc, i) -> acc + i, 0);
+
+            mIncomeTextView.setText("￥" + income);
+            mOutcomeTextView.setText("￥ -" + outcome);
+            mSumTextView.setText("￥" + (income - outcome));
+
             View formLayout = inflater.inflate(R.layout.input_column, container, false);
             formContainer.addView(formLayout);
             mFormLayoutList.add(formLayout);
         });
+
         return view;
     }
 

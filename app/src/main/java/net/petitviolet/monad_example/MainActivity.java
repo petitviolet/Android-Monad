@@ -90,7 +90,10 @@ public class MainActivity extends AppCompatActivity {
         ListM<String> seed = listM.filter(i -> i % 2 == 0)
                 .flatMap(this::alphabets)
                 .map(s -> s + "!")
-                .map(s -> {Log.d(TAG, s); return s;});
+                .map(s -> {
+                    Log.d(TAG, s);
+                    return s;
+                });
         String rightResult = seed.foldRight((a, acc) -> a + ", " + acc, " <= end");
         String leftResult = seed.foldLeft("start -> ", (acc, a) -> acc + ", " + a);
         Log.d(TAG, "resultRight => " + rightResult);

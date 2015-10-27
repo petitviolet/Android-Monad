@@ -87,10 +87,14 @@ public class MainActivity extends AppCompatActivity {
     private void testListMWithLambda() {
         ListM<Integer> listM = ListM.unit();
         listM.addAll(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-        listM.filter(i -> i % 2 == 0)
+        ListM<String> seed = listM.filter(i -> i % 2 == 0)
                 .flatMap(this::alphabets)
                 .map(s -> s + "!")
-                .foreach(s -> Log.d(TAG, s));
+                .map(s -> {Log.d(TAG, s); return s;});
+        String rightResult = seed.foldRight((a, acc) -> a + ", " + acc, " <= end");
+        String leftResult = seed.foldLeft("start -> ", (acc, a) -> acc + ", " + a);
+        Log.d(TAG, "resultRight => " + rightResult);
+        Log.d(TAG, "resultLeft => " + leftResult);
     }
 
     private static final ListM<String> ALPHABETS = ListM.unit();

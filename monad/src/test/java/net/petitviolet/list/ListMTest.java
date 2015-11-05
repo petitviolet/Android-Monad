@@ -89,24 +89,24 @@ public class ListMTest {
 
     @Test
     public void testFoldLeft() {
-        Integer result = mListM.foldLeft(0, new Function.F2<Integer, String, Integer>() {
+        String result = mListM.foldLeft("x", new Function.F2<String, String, String>() {
             @Override
-            public Integer invoke(Integer integer, String s) {
-                return integer + s.length();
+            public String invoke(String acc, String s2) {
+                return acc + s2;
             }
         });
-        assert result == 6;
+        assert result.equals("xabbccc");
     }
 
     @Test
     public void testFoldRight() {
-        Integer result = mListM.foldRight(new Function.F2<String, Integer, Integer>() {
+        String result = mListM.foldRight(new Function.F2<String, String, String>() {
             @Override
-            public Integer invoke(String s, Integer integer) {
-                return integer + s.length();
+            public String invoke(String s, String acc) {
+                return s + acc;
             }
-        }, 0);
-        assert result == 6;
+        }, "x");
+        assert result.equals("cccbbax");
     }
 
     @Test

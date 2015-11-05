@@ -1,6 +1,7 @@
 # Android-Monad
 
-![jitpack](https://img.shields.io/github/tag/petitviolet/Android-Monad.svg?label=JitPack)
+
+[![Download](https://api.bintray.com/packages/petitviolet/maven/android-monad/images/download.svg) ](https://bintray.com/petitviolet/maven/android-monad/\_latestVersion)
 
 This repository is Yet Another Android-M.
 
@@ -11,13 +12,13 @@ Implemented "Monadic" data structures.
 ```groovy
 repositories {
     // ...
-    maven { url "https://jitpack.io" }
+    jcenter()
 }
 
 // ...
 
 dependencies {
-    compile 'com.github.petitviolet:Android-Monad:0.0.1'
+    compile 'net.petitviolet.android:monad:0.1.0'
 }
 ```
 

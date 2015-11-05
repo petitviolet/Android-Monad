@@ -33,3 +33,5 @@ local.properties
 proguard/
 
 
+/gradle.properties
+bintray.gradle

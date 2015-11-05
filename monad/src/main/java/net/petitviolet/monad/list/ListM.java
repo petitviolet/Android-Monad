@@ -11,6 +11,19 @@ import java.util.Collections;
 import java.util.List;
 
 abstract public class ListM<A> extends ArrayList<A> {
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof ListM) || ((ListM) o).size() != this.size()) {
+            return false;
+        }
+        for (int i = 0; i < ((ListM) o).size(); i++) {
+            if (!((ListM) o).get(i).equals(this.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @NonNull
     @Override
     public ListM<A> subList(int start, int end) {
@@ -24,6 +37,9 @@ abstract public class ListM<A> extends ArrayList<A> {
 
 
     public Maybe<A> maybeGet(int index) {
+        if (index >= this.size()) {
+            return Maybe.of(null);
+        }
         return Maybe.of(get(index));
     }
 

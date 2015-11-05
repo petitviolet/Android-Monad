@@ -63,6 +63,8 @@ maybeInt.flatMap(new Function.F1<Integer, Maybe<Integer>>() {
 });
 ```
 
+More detailes of `Maybe` interface is shown in [MaybeTest.java](https://github.com/petitviolet/Android-Monad/blob/master/monad%2Fsrc%2Ftest%2Fjava%2Fnet%2Fpetitviolet%2Fmaybe%2FMaybeTest.java).
+
 ## ListM
 
 Implemented `ListM` based on `ArrayList` as a implementation of `List` interface.
@@ -76,6 +78,8 @@ ListM<String> result = listM.filter(i -> i % 3 == 0)
         .foldRight((a, acc) -> a + ", " + acc, " <= end");
 // result -> 90!, 60!, 30!, <= end
 ```
+
+More detailes of `ListM` interface is shown in [ListMTest.java](https://github.com/petitviolet/Android-Monad/blob/master/monad%2Fsrc%2Ftest%2Fjava%2Fnet%2Fpetitviolet%2Flist%2FListMTest.java).
 
 # Lisence
 

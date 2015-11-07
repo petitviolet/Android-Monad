@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import dalvik.annotation.TestTargetClass;
+
 import static org.junit.Assert.*;
 
 /**
@@ -131,5 +133,21 @@ public class ListMTest {
     @Test
     public void testEqualsFalseContents() {
         assert mListM.equals(ListM.of("a", "bb", "cc")) == false;
+    }
+
+    @Test
+    public void testFoldMap() {
+        Integer result = mListM.foldMap(0, new Function.F1<String, Integer>() {
+            @Override
+            public Integer invoke(String s) {
+                return s.length();
+            }
+        }, new Function.F2<Integer, Integer, Integer>() {
+            @Override
+            public Integer invoke(Integer acc, Integer i) {
+                return acc + i;
+            }
+        });
+        assert result == 6;
     }
 }

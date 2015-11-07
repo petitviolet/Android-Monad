@@ -1,7 +1,6 @@
 package net.petitviolet.monad.list;
 
 import net.petitviolet.monad.func.Function;
-import net.petitviolet.monad.type.Monoid;
 
 class ArrayListM<A> extends ListM<A> {
     private static final String TAG = ArrayListM.class.getSimpleName();
@@ -23,6 +22,16 @@ class ArrayListM<A> extends ListM<A> {
             acc = (B) func.invoke(item, acc);
         }
         return acc;
+    }
+
+    @Override
+    public <B> B foldMap(B acc, Function.F1<? super A, ? extends B> converter,
+                         Function.F2<? super B, ? super B, ? extends B> accumulator) {
+        B result = acc;
+        for (A item : this) {
+            result = accumulator.invoke(result, converter.invoke(item));
+        }
+        return result;
     }
 
     @Override

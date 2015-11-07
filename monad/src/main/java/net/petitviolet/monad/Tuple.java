@@ -13,4 +13,8 @@ public class Tuple<A, B> {
         this.fst = fst;
         this.snd = snd;
     }
+
+    public static <A, B> Tuple<A, B> of(A fst, B snd) {
+        return new Tuple<>(fst, snd);
+    }
 }

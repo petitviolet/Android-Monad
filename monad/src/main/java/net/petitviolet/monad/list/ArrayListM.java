@@ -1,5 +1,6 @@
 package net.petitviolet.monad.list;
 
+import net.petitviolet.monad.Tuple;
 import net.petitviolet.monad.func.Function;
 
 class ArrayListM<A> extends ListM<A> {

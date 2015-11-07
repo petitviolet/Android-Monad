@@ -2,6 +2,7 @@ package net.petitviolet.monad.list;
 
 import android.support.annotation.NonNull;
 
+import net.petitviolet.monad.Tuple;
 import net.petitviolet.monad.func.Function;
 import net.petitviolet.monad.maybe.Maybe;
 

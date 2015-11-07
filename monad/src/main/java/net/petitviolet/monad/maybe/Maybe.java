@@ -4,7 +4,15 @@ import android.support.annotation.Nullable;
 
 import net.petitviolet.monad.func.Function;
 
+/**
+ * Maybe monad
+ * null -> None
+ * some value -> Just
+ * @param <A>
+ */
 abstract public class Maybe<A> {
+// abstract public class Maybe<A> { //implements Monad<A,Maybe<?>> {
+    // if implements Monad interface, type inference does not work properly...
 
     @Override
     public boolean equals(Object object) {
@@ -41,5 +49,9 @@ abstract public class Maybe<A> {
         } else {
             return new None<>();
         }
+    }
+
+    public static <A> Maybe<A> none() {
+        return new None<>();
     }
 }

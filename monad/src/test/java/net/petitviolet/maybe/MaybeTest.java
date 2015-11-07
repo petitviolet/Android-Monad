@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class MaybeTest {
     private Maybe<String> just = Maybe.of("hoge");
-    private Maybe<String> none = Maybe.of(null);
+    private Maybe<String> none = Maybe.none();
 
     @Test
     public void getJust() {

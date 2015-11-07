@@ -35,8 +35,11 @@ def gitUrl = 'https://github.com/petitviolet/android-monad.git'
 
 
 bintray {
-    user = rootProject.ext.BINTRAY_USER
-    key = rootProject.ext.BINTRAY_API_KEY
+    if (name != "bintrayUpload") return;
+    def bintrayProps = new Properties()
+    bintrayProps.load(new FileInputStream("bintray.gradle"))
+    user = bintrayProps["bintray_user"]
+    key = bintrayProps["bintray_api_key"]
 
     configurations = ['archives'] //When uploading configuration files
     pkg {

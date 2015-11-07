@@ -19,10 +19,6 @@ allprojects {
     repositories {
         jcenter()
     }
-    def bintrayProps = new Properties()
-    bintrayProps.load(new FileInputStream("bintray.gradle"))
-    ext.BINTRAY_USER = bintrayProps["bintray_user"]
-    ext.BINTRAY_API_KEY = bintrayProps["bintray_api_key"]
 }
 
 task clean(type: Delete) {

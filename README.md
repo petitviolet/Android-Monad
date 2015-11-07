@@ -10,15 +10,8 @@ Implemented "Monadic" data structures.
 # Set up
 
 ```groovy
-repositories {
-    // ...
-    jcenter()
-}
-
-// ...
-
 dependencies {
-    compile 'net.petitviolet.android:monad:0.1.0'
+    compile 'net.petitviolet.android:monad:0.2.0'
 }
 ```
 

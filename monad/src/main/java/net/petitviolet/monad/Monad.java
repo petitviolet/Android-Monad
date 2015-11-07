@@ -2,8 +2,6 @@ package net.petitviolet.monad;
 
 import net.petitviolet.monad.func.Function;
 
-public interface Monad<A> {
-    <B> Monad<B> map(Function.F1<? super A, B> func);
-
-    <B> Monad<B> flatMap(Function.F1<? super A, Monad<B>> func);
+public interface Monad<A, M extends Monad<?, ?>> extends Functor<A, M> {
+    <B> M flatMap(Function.F1<? super A, ? extends M> f);
 }

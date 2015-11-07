@@ -1,4 +1,4 @@
-package net.petitviolet.monad.list;
+package net.petitviolet.monad;
 
 public class Tuple<A, B> {
     public final A fst;

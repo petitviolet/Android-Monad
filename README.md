@@ -11,7 +11,7 @@ Implemented "Monadic" data structures.
 
 ```groovy
 dependencies {
-    compile 'net.petitviolet.android:monad:0.2.0'
+    compile 'net.petitviolet.android:monad:0.3.0'
 }
 ```
 
@@ -73,6 +73,61 @@ ListM<String> result = listM.filter(i -> i % 3 == 0)
 ```
 
 More detailes of `ListM` interface is shown in [ListMTest.java](https://github.com/petitviolet/Android-Monad/blob/master/monad%2Fsrc%2Ftest%2Fjava%2Fnet%2Fpetitviolet%2Flist%2FListMTest.java).
+
+## State
+
+State monad.
+Sequencial computations share a state, and each of them uses the state and modify or not, then pass it to next computation.
+
+```java
+// state is List<String>, and value is Integer
+Tuple<Integer, List<String>> result =
+        State.init((List<String> strings) -> {
+            // modify state
+            strings.add("nice");
+            // value is 1
+            return Tuple.of(1, strings);
+        }).map(i -> {
+            // apply function to value of State
+            return i + 10;
+        }).map(i -> {
+            // apply function to value of State
+            return i * 2;
+        }).flatMap(integer -> {
+            // apply function to value of State
+            return State.init(strings -> {
+                if (integer % 2 == 0) {
+                    // modify state
+                    strings.add("awesome");
+                    return Tuple.of(integer, strings);
+                } else {
+                    // modify state
+                    strings.add("Oops");
+                    return Tuple.of(-100, strings);
+                }
+            });
+        // empty list is given as the first state of above sequencial computations
+        }).apply(new ArrayList<>());
+assert result._1 == 22;
+assert result._2 == List("nice", "awesome");  // dummy code
+```
+
+# Identity
+
+Id monad.
+Have a value and do nothing.
+Just monadic.
+
+```java
+Identity<String> id = Identity.id("hoge");
+Identity<Integer> result = id.flatMap(new Function.F1<String, Identity<Integer>>() {
+        @Override
+        public Identity<Integer> invoke(String s) {
+        return Identity.id(s.length());
+    }
+});
+assert result.value.equals(4);
+```
 
 # Lisence
 

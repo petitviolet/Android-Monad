@@ -1,6 +1,6 @@
 # Android-Monad
 
-
+[![Circle CI](https://circleci.com/gh/petitviolet/Android-Monad/tree/master.svg?style=svg)](https://circleci.com/gh/petitviolet/Android-Monad/tree/master)
 [![Download](https://api.bintray.com/packages/petitviolet/maven/android-monad/images/download.svg) ](https://bintray.com/petitviolet/maven/android-monad/\_latestVersion)
 
 This repository is Yet Another Android-M.

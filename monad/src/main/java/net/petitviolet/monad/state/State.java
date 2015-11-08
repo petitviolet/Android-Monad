@@ -90,8 +90,8 @@ public class State<S, A> {
             @Override
             public Tuple<B, S> invoke(S s) {
                 Tuple<A, S> as = runState.invoke(s);
-                State<S, ? extends B> sb = f.invoke(as.fst);
-                Tuple<B, S> bs = (Tuple<B, S>) sb.runState.invoke(as.snd);
+                State<S, ? extends B> sb = f.invoke(as._1);
+                Tuple<B, S> bs = (Tuple<B, S>) sb.runState.invoke(as._2);
                 return bs;
             }
         };

@@ -2,14 +2,9 @@ package net.petitviolet.monad.state;
 
 import net.petitviolet.monad.Tuple;
 import net.petitviolet.monad.func.Function;
-import net.petitviolet.monad.state.State;
 
 import org.junit.Test;
 
-import java.lang.Integer;
-import java.lang.Object;
-import java.lang.Override;
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,16 +25,16 @@ public class StateTest {
         }).apply(100);
         System.out.println("testInit");
         System.out.println(result);
-        assert result.fst == 1;
-        assert result.snd == 100;
+        assert result._1 == 1;
+        assert result._2 == 100;
     }
 
     @Test
     public void testUnit() {
         Tuple<Integer, Integer> result = State.<Integer, Integer>unit(1).apply(100);
         System.out.println(result);
-        assert result.fst == 1;
-        assert result.snd == 100;
+        assert result._1 == 1;
+        assert result._2 == 100;
     }
 
     @Test
@@ -53,8 +48,8 @@ public class StateTest {
                     }
                 }).apply(100);
         System.out.println(result);
-        assert result.fst == 2;
-        assert result.snd == 100;
+        assert result._1 == 2;
+        assert result._2 == 100;
     }
 
     @Test
@@ -68,8 +63,8 @@ public class StateTest {
                     }
                 }).apply(100);
         System.out.println(result);
-        assert result.fst == 2;
-        assert result.snd == 100;
+        assert result._1 == 2;
+        assert result._2 == 100;
     }
 
     @Test

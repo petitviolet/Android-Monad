@@ -11,11 +11,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import net.petitviolet.monad.Tuple;
 import net.petitviolet.monad.list.ListM;
-import net.petitviolet.monad.list.Tuple;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SampleFragment extends Fragment {
     private Button mAddFormButton;
@@ -53,13 +50,13 @@ public class SampleFragment extends Fragment {
         mAddFormButton.setOnClickListener(v -> {
             Tuple<ListM<View>, ListM<View>> partitionLayouts = mFormLayoutList.partition(layout -> ((CheckBox) layout.findViewById(R.id.select_plus_or_minus)).isChecked());
 
-            int income = partitionLayouts.fst
+            int income = partitionLayouts._1
                     .map(layout -> ((EditText) layout.findViewById(R.id.input_number)).getText().toString())
                     .filter(s -> !TextUtils.isEmpty(s))
                     .map(Integer::parseInt)
                     .foldLeft(0, (acc, i) -> acc + i);
 
-            int outcome = partitionLayouts.snd
+            int outcome = partitionLayouts._2
                     .map(layout -> ((EditText) layout.findViewById(R.id.input_number)).getText().toString())
                     .filter(s -> !TextUtils.isEmpty(s))
                     .map(Integer::parseInt)

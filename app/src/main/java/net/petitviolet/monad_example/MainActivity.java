@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.petitviolet.monad.Tuple;
 import net.petitviolet.monad.func.Function;
 import net.petitviolet.monad.list.ListM;
 import net.petitviolet.monad.maybe.Maybe;
+import net.petitviolet.monad.state.State;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
             testMaybeWithLambda(100);
             testMaybeOldStyle(null);
             testListMWithLambda();
+            sampleState();
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         });
@@ -110,6 +114,30 @@ public class MainActivity extends AppCompatActivity {
 
     private ListM<String> alphabets(int num) {
         return ALPHABETS.subList(0, num <= ALPHABETS.size() ? num : ALPHABETS.size());
+    }
+
+    private void sampleState() {
+        Tuple<Integer, List<String>> result =
+                State.init((List<String> strings) -> {
+                    strings.add("nice");
+                    return Tuple.of(1, strings);
+
+                }).map(i -> {
+                    return i + 6;
+                }).map(i -> {
+                    return i * 3;
+                }).flatMap(integer -> {
+                    return State.init(strings -> {
+                        if (integer == 42) {
+                            strings.add("awesome");
+                            return Tuple.of(integer, strings);
+                        } else {
+                            strings.add("Oops");
+                            return Tuple.of(-100, strings);
+                        }
+                    });
+                }).apply(new ArrayList<>());
+        Log.d(TAG, "State -> " + result.toString());
     }
 
     @Override

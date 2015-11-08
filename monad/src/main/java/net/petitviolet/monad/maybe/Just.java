@@ -32,11 +32,6 @@ class Just<A> extends Maybe<A> {
     }
 
     @Override
-    public <B> Maybe<B> map(Function.F1<? super A, ? extends B> func) {
-        return Maybe.of(func.invoke(mTarget));
-    }
-
-    @Override
     public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Maybe<B>> func) {
         return func.invoke(mTarget);
     }

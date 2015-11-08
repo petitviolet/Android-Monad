@@ -33,7 +33,14 @@ abstract public class Maybe<A> {
 
     abstract public void foreach(Function.F<? super A> func);
 
-    abstract public <B> Maybe<B> map(Function.F1<? super A, ? extends B> func);
+    public <B> Maybe<B> map(final Function.F1<? super A, ? extends B> func) {
+        return flatMap(new Function.F1<A, Maybe<B>>() {
+            @Override
+            public Maybe<B> invoke(A a) {
+                return Maybe.of(func.invoke(getOrElse(null)));
+            }
+        });
+    }
 
     abstract public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Maybe<B>> func);
 

@@ -27,11 +27,6 @@ class None<A> extends Maybe<A> {
     }
 
     @Override
-    public <B> Maybe<B> map(Function.F1<? super A, ? extends B> func) {
-        return new None<>();
-    }
-
-    @Override
     public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Maybe<B>> func) {
         return new None<>();
     }

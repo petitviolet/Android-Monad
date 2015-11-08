@@ -53,6 +53,14 @@ class ArrayListM<A> extends ListM<A> {
 
     @Override
     public <B> ListM<B> flatMap(Function.F1<? super A, ? extends ListM<B>> func) {
+        // use flatMap is not effective from the viewpoint of performance
+//        return flatMap(new Function.F1<A, ListM<B>>() {
+//            @SuppressWarnings("unchecked")
+//            @Override
+//            public ListM<B> invoke(A a) {
+//                return ListM.of(func.invoke(a));
+//            }
+//        });
         ListM<B> result = new ArrayListM<>();
         for (A item : this) {
             result.addAll(func.invoke(item));

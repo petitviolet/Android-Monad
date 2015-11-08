@@ -89,7 +89,7 @@ class ArrayListM<A> extends ListM<A> {
             }
         });
 
-        return new Tuple<>(fst, snd);
+        return Tuple.of(fst, snd);
     }
 
 }

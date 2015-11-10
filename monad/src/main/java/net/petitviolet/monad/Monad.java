@@ -2,6 +2,10 @@ package net.petitviolet.monad;
 
 import net.petitviolet.monad.func.Function;
 
-public interface Monad<A, M extends Monad<?, ?>> extends Functor<A, M> {
-    <B> M flatMap(Function.F1<? super A, ? extends M> f);
+import java.util.Collection;
+
+public interface Monad<A> extends Functor<A> {
+    <B> Monad<B> flatMap(Function.F1<? super A, ? extends Monad<B>> f);
+
+    Collection<A> flatten();
 }

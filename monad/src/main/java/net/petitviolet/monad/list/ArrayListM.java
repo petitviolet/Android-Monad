@@ -1,5 +1,6 @@
 package net.petitviolet.monad.list;
 
+import net.petitviolet.monad.Monad;
 import net.petitviolet.monad.Tuple;
 import net.petitviolet.monad.func.Function;
 
@@ -52,7 +53,7 @@ class ArrayListM<A> extends ListM<A> {
     }
 
     @Override
-    public <B> ListM<B> flatMap(Function.F1<? super A, ? extends ListM<B>> func) {
+    public <B> ListM<B> flatMap(Function.F1<? super A, ? extends Monad<B>> func) {
         // use flatMap is not effective from the viewpoint of performance
 //        return flatMap(new Function.F1<A, ListM<B>>() {
 //            @SuppressWarnings("unchecked")
@@ -63,7 +64,7 @@ class ArrayListM<A> extends ListM<A> {
 //        });
         ListM<B> result = new ArrayListM<>();
         for (A item : this) {
-            result.addAll(func.invoke(item));
+            result.addAll(func.invoke(item).flatten());
         }
         return result;
     }

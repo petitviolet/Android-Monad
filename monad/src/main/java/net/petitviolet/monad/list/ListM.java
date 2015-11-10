@@ -2,15 +2,17 @@ package net.petitviolet.monad.list;
 
 import android.support.annotation.NonNull;
 
+import net.petitviolet.monad.Monad;
 import net.petitviolet.monad.Tuple;
 import net.petitviolet.monad.func.Function;
 import net.petitviolet.monad.maybe.Maybe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-abstract public class ListM<A> extends ArrayList<A> {
+abstract public class ListM<A> extends ArrayList<A> implements Monad<A> {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ListM) || ((ListM) o).size() != this.size()) {
@@ -58,7 +60,7 @@ abstract public class ListM<A> extends ArrayList<A> {
 
     public abstract <B> ListM<B> map(Function.F1<? super A, ? extends B> func);
 
-    public abstract <B> ListM<B> flatMap(Function.F1<? super A, ? extends ListM<B>> func);
+    public abstract <B> ListM<B> flatMap(Function.F1<? super A, ? extends Monad<B>> func);
 
     public abstract ListM<A> filter(final Function.F1<? super A, Boolean> func);
 
@@ -74,4 +76,8 @@ abstract public class ListM<A> extends ArrayList<A> {
 
     public abstract Tuple<ListM<A>, ListM<A>> partition(Function.F1<? super A, Boolean> func);
 
+    @Override
+    public Collection<A> flatten() {
+        return this;
+    }
 }

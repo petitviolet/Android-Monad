@@ -1,5 +1,6 @@
 package net.petitviolet.monad.maybe;
 
+import net.petitviolet.monad.Monad;
 import net.petitviolet.monad.func.Function;
 
 class None<A> extends Maybe<A> {
@@ -27,7 +28,7 @@ class None<A> extends Maybe<A> {
     }
 
     @Override
-    public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Maybe<B>> func) {
+    public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Monad<B>> func) {
         return new None<>();
     }
 

@@ -2,6 +2,7 @@ package net.petitviolet.monad.maybe;
 
 import android.support.annotation.NonNull;
 
+import net.petitviolet.monad.Monad;
 import net.petitviolet.monad.func.Function;
 
 class Just<A> extends Maybe<A> {
@@ -32,8 +33,8 @@ class Just<A> extends Maybe<A> {
     }
 
     @Override
-    public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Maybe<B>> func) {
-        return func.invoke(mTarget);
+    public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Monad<B>> func) {
+        return (Maybe<B>) func.invoke(mTarget);
     }
 
     @Override
@@ -44,4 +45,5 @@ class Just<A> extends Maybe<A> {
             return new None<>();
         }
     }
+
 }

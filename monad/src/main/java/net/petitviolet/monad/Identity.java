@@ -5,7 +5,7 @@ import net.petitviolet.monad.func.Function;
 import java.util.Collection;
 import java.util.Collections;
 
-public class Identity<A> implements Monad<A> {
+public class Identity<A> extends Monad<A, Identity<?>> {
     public final A value;
 
     public Identity(A value) {
@@ -30,17 +30,18 @@ public class Identity<A> implements Monad<A> {
     }
 
     @Override
-    public <B> Identity<B> flatMap(Function.F1<? super A, ? extends Monad<B>> f) {
+    public <B> Identity<B> unit(B a) {
+        return id(a);
+    }
+
+    @Override
+    public <B> Identity<B> flatMap(Function.F1<A, ? extends Monad<B, Identity<?>>> f) {
         return (Identity<B>) f.invoke(value);
     }
 
     @Override
-    public Collection<A> flatten() {
-        return Collections.singletonList(value);
+    public A get() {
+        return value;
     }
 
-    @Override
-    public <B> Identity<B> map(Function.F1<? super A, ? extends B> func) {
-        return Identity.id(func.invoke(value));
-    }
 }

@@ -28,12 +28,12 @@ class None<A> extends Maybe<A> {
     }
 
     @Override
-    public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Monad<B>> func) {
-        return new None<>();
+    public Maybe<A> filter(Function.F1<? super A, Boolean> func) {
+        return this;
     }
 
     @Override
-    public Maybe<A> filter(Function.F1<? super A, Boolean> func) {
-        return this;
+    public <B> Monad<B, Maybe<?>> flatMap(Function.F1<A, ? extends Monad<B, Maybe<?>>> f) {
+        return new None<>();
     }
 }

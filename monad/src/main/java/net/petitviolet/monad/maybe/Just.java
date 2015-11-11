@@ -33,11 +33,6 @@ class Just<A> extends Maybe<A> {
     }
 
     @Override
-    public <B> Maybe<B> flatMap(Function.F1<? super A, ? extends Monad<B>> func) {
-        return (Maybe<B>) func.invoke(mTarget);
-    }
-
-    @Override
     public Maybe<A> filter(Function.F1<? super A, Boolean> func) {
         if (func.invoke(mTarget)) {
             return this;
@@ -46,4 +41,9 @@ class Just<A> extends Maybe<A> {
         }
     }
 
+
+    @Override
+    public <B> Maybe<B> flatMap(Function.F1<A, ? extends Monad<B, Maybe<?>>> f) {
+        return (Maybe<B>) f.invoke(mTarget);
+    }
 }

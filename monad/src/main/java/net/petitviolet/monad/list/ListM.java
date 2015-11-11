@@ -2,6 +2,7 @@ package net.petitviolet.monad.list;
 
 import android.support.annotation.NonNull;
 
+import net.petitviolet.monad.Functor;
 import net.petitviolet.monad.Monad;
 import net.petitviolet.monad.Tuple;
 import net.petitviolet.monad.func.Function;
@@ -10,26 +11,111 @@ import net.petitviolet.monad.maybe.Maybe;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Objects;
 
-abstract public class ListM<A> extends ArrayList<A> implements Monad<A> {
+public class ListM<A> extends Monad<A, ListM<?>> implements List<A> {
+    protected final List<A> mList;
+
+    public ListM(List<A> list) {
+        mList = list;
+    }
+
+    public ListM() {
+        mList = new ArrayList<>();
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ListM) || ((ListM) o).size() != this.size()) {
+        if (!(o instanceof ListM) || ((ListM) o).size() != mList.size()) {
             return false;
         }
         for (int i = 0; i < ((ListM) o).size(); i++) {
-            if (!((ListM) o).get(i).equals(this.get(i))) {
+            if (!((ListM) o).get(i).equals(mList.get(i))) {
                 return false;
             }
         }
         return true;
     }
 
+    @Override
+    public A get(int location) {
+        return mList.get(location);
+    }
+
+    @Override
+    public int hashCode() {
+        return mList.hashCode();
+    }
+
+    @Override
+    public int indexOf(Object object) {
+        return mList.indexOf(object);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return mList.isEmpty();
+    }
+
+    @NonNull
+    @Override
+    public Iterator<A> iterator() {
+        return mList.iterator();
+    }
+
+    @Override
+    public int lastIndexOf(Object object) {
+        return mList.lastIndexOf(object);
+    }
+
+    @Override
+    public ListIterator<A> listIterator() {
+        return mList.listIterator();
+    }
+
+    @NonNull
+    @Override
+    public ListIterator<A> listIterator(int location) {
+        return mList.listIterator(location);
+    }
+
+    @Override
+    public A remove(int location) {
+        return mList.remove(location);
+    }
+
+    @Override
+    public boolean remove(Object object) {
+        return mList.remove(object);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> collection) {
+        return mList.removeAll(collection);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> collection) {
+        return mList.retainAll(collection);
+    }
+
+    @Override
+    public A set(int location, A object) {
+        return mList.set(location, object);
+    }
+
+    @Override
+    public int size() {
+        return mList.size();
+    }
+
     @NonNull
     @Override
     public ListM<A> subList(int start, int end) {
-        List<A> sublist = super.subList(start, end);
+        List<A> sublist = mList.subList(start, end);
         ListM<A> listM = ListM.unit();
         for (A item : sublist) {
             listM.add(item);
@@ -37,9 +123,21 @@ abstract public class ListM<A> extends ArrayList<A> implements Monad<A> {
         return listM;
     }
 
+    @NonNull
+    @Override
+    public Object[] toArray() {
+        return mList.toArray();
+    }
+
+    @NonNull
+    @Override
+    public <T> T[] toArray(T[] array) {
+        return mList.toArray(array);
+    }
+
 
     public Maybe<A> maybeGet(int index) {
-        if (index >= this.size()) {
+        if (index >= mList.size()) {
             return Maybe.of(null);
         }
         return Maybe.of(get(index));
@@ -49,23 +147,61 @@ abstract public class ListM<A> extends ArrayList<A> implements Monad<A> {
         return maybeGet(index).getOrElse(defaultValue);
     }
 
-    public abstract <B> B foldLeft(B acc, Function.F2<? super B, ? super A, ? super B> func);
 
-    public abstract <B> B foldRight(Function.F2<? super A, ? super B, ? super B> func, B acc);
+    public <B> B foldLeft(B acc, Function.F2<? super B, ? super A, ? super B> func) {
+        for (A item : mList) {
+            acc = (B) func.invoke(acc, item);
+        }
+        return acc;
+    }
 
-    public abstract <B> B foldMap(B acc, Function.F1<? super A, ? extends B> converter,
-                         Function.F2<? super B, ? super B, ? extends B> accumulator);
+    public <B> B foldRight(Function.F2<? super A, ? super B, ? super B> func, B acc) {
+        for (A item : mList) {
+            acc = (B) func.invoke(item, acc);
+        }
+        return acc;
+    }
 
-    public abstract void foreach(Function.F<? super A> func);
+    public <B> B foldMap(B acc, Function.F1<? super A, ? extends B> converter,
+                         Function.F2<? super B, ? super B, ? extends B> accumulator) {
+        B result = acc;
+        for (A item : mList) {
+            result = accumulator.invoke(result, converter.invoke(item));
+        }
+        return result;
+    }
 
-    public abstract <B> ListM<B> map(Function.F1<? super A, ? extends B> func);
+    public void foreach(Function.F<? super A> func) {
+        for (A item : mList) {
+            func.invoke(item);
+        }
+    }
 
-    public abstract <B> ListM<B> flatMap(Function.F1<? super A, ? extends Monad<B>> func);
 
-    public abstract ListM<A> filter(final Function.F1<? super A, Boolean> func);
+    public ListM<A> filter(Function.F1<? super A, Boolean> func) {
+        ListM<A> result = new ListM<>();
+        for (A item : mList) {
+            if (func.invoke(item)) {
+                result.add(item);
+            }
+        }
+        return result;
+    }
+
+    public Tuple<ListM<A>, ListM<A>> partition(final Function.F1<? super A, Boolean> func) {
+        ListM<A> fst = filter(func);
+        ListM<A> snd = filter(new Function.F1<A, Boolean>() {
+            @Override
+            public Boolean invoke(A a) {
+                return !func.invoke(a);
+            }
+        });
+
+        return Tuple.of(fst, snd);
+    }
 
     public static <A> ListM<A> unit() {
-        return new ArrayListM<>();
+        return new ListM<>();
     }
 
     public static <A> ListM<A> of(A... args) {
@@ -74,10 +210,59 @@ abstract public class ListM<A> extends ArrayList<A> implements Monad<A> {
         return listM;
     }
 
-    public abstract Tuple<ListM<A>, ListM<A>> partition(Function.F1<? super A, Boolean> func);
+    @Override
+    public void add(int location, A object) {
+        mList.add(location, object);
+    }
 
     @Override
-    public Collection<A> flatten() {
-        return this;
+    public boolean add(A object) {
+        return mList.add(object);
     }
+
+    @Override
+    public boolean addAll(int location, Collection<? extends A> collection) {
+        return mList.addAll(location, collection);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends A> collection) {
+        return mList.addAll(collection);
+    }
+
+    @Override
+    public void clear() {
+        mList.clear();
+    }
+
+    @Override
+    public boolean contains(Object object) {
+        return mList.contains(object);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> collection) {
+        return mList.containsAll(collection);
+    }
+
+    @Override
+    public ListM unit(Object a) {
+        return (ListM) of(a);
+    }
+
+    @Override
+    public A get() {
+        ListM<A> result = ListM.unit();
+        for (A item : mList) {
+            result.add(item);
+        }
+        return (A) result;
+    }
+
+    @Override
+    public Monad flatMap(Function.F1 f) {
+        return null;
+    }
+
+
 }

@@ -2,13 +2,9 @@ package net.petitviolet.monad.maybe;
 
 import android.support.annotation.Nullable;
 
+import net.petitviolet.monad.Applicative;
 import net.petitviolet.monad.Monad;
 import net.petitviolet.monad.func.Function;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Maybe monad
@@ -17,7 +13,7 @@ import java.util.Collections;
  *
  * @param <A>
  */
-abstract public class Maybe<A> implements Monad<A> {
+abstract public class Maybe<A> extends Monad<A, Maybe<?>> {
 // abstract public class Maybe<A> { //implements Monad<A,Maybe<?>> {
     // if implements Monad interface, type inference does not work properly...
 
@@ -40,15 +36,6 @@ abstract public class Maybe<A> implements Monad<A> {
 
     abstract public void foreach(Function.F<? super A> func);
 
-    public <B> Maybe<B> map(final Function.F1<? super A, ? extends B> func) {
-        return (Maybe<B>) flatMap(new Function.F1<A, Maybe<B>>() {
-            @Override
-            public Maybe<B> invoke(A a) {
-                return Maybe.of(func.invoke(getOrElse(null)));
-            }
-        });
-    }
-
     public boolean isPresent() {
         return this instanceof Just;
     }
@@ -63,16 +50,12 @@ abstract public class Maybe<A> implements Monad<A> {
         }
     }
 
-    public static <A> Maybe<A> none() {
-        return new None<>();
+    @Override
+    public <B> Maybe<B> unit(B a) {
+        return of(a);
     }
 
-    @Override
-    public Collection<A> flatten() {
-        if (isPresent()) {
-            return Collections.singletonList(get());
-        } else {
-            return Collections.emptyList();
-        }
+    public static <A> Maybe<A> none() {
+        return new None<>();
     }
 }

@@ -6,9 +6,9 @@ import net.petitviolet.monad.maybe.Maybe;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import static org.junit.Assert.*;
+import java.util.Map;
 
 /**
  * Test cases for Maybe(Just/None)
@@ -181,5 +181,44 @@ public class MaybeTest {
             }
         });
         assert result2.equals(none) == true;
+    }
+
+    private static class AwesomeObj {
+        public Map<Integer, String> map;
+
+        public AwesomeObj() {
+            this.map = new HashMap<>();
+        }
+
+        public Maybe<String> getValue(int key) {
+            return Maybe.of(map.get(key));
+        }
+    }
+
+    @Test
+    public void practicalCase() {
+        final AwesomeObj obj = new AwesomeObj();
+        Map<Integer, String> map = new HashMap<>();
+
+        assert obj.getValue(0).equals(Maybe.none()) == true;
+
+        map.put(1, "good");
+        obj.map = map;
+
+        assert obj.getValue(1).equals(Maybe.of("good")) == true;
+        assert obj.getValue(100).equals(Maybe.none()) == true;
+
+        Maybe<String> result = Maybe.of(1).flatMap(new Function.F1<Integer, Maybe<String>>() {
+            @Override
+            public Maybe<String> invoke(Integer integer) {
+                return obj.getValue(integer);
+            }
+        }).map(new Function.F1<String, String>() {
+            @Override
+            public String invoke(String str) {
+                return str + "!";
+            }
+        });
+        assert result.equals(Maybe.of("good!")) == true;
     }
 }

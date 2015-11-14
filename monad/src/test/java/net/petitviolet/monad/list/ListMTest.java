@@ -6,17 +6,9 @@ import net.petitviolet.monad.maybe.Maybe;
 
 import org.junit.Test;
 
-import java.lang.Boolean;
-import java.lang.Integer;
-import java.lang.Override;
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import dalvik.annotation.TestTargetClass;
-
-import static org.junit.Assert.*;
 
 /**
  * Test cases for ListM(ArrayListM)
@@ -120,6 +112,7 @@ public class ListMTest {
     public void testEqualsFalseType() {
         assert mListM.equals(Arrays.asList("a", "bb", "ccc")) == false;
     }
+
     @Test
     public void testEqualsFalseType2() {
         assert mListM.equals(1) == false;
@@ -149,5 +142,22 @@ public class ListMTest {
             }
         });
         assert result == 6;
+    }
+
+    @Test
+    public void testBindMaybe() {
+        ListM<Integer> result = ListM.of(1, 2, 3, 4, 5)
+                .map(new Function.F1<Integer, Integer>() {
+                    @Override
+                    public Integer invoke(Integer integer) {
+                        return integer * 2;
+                    }
+                }).bindMaybe(new Function.F1<Integer, Maybe<Integer>>() {
+                    @Override
+                    public Maybe<Integer> invoke(Integer integer) {
+                        return Maybe.of(integer);
+                    }
+                });
+        assert result.equals(ListM.of(2, 4, 6, 8, 10)) == true;
     }
 }

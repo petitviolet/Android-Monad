@@ -11,7 +11,7 @@ Implemented "Monadic" data structures.
 
 ```groovy
 dependencies {
-    compile 'net.petitviolet.android:monad:0.3.0'
+    compile 'net.petitviolet.android:monad:latest-version'
 }
 ```
 

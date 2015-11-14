@@ -140,6 +140,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "State -> " + result.toString());
     }
 
+    private void combineMaybeListM() {
+        ListM.of(1, 2, 3, 4, 5)
+                .map(i -> i * 2)
+                .bindMaybe(Maybe::of)
+                .foreach(System.out::println);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

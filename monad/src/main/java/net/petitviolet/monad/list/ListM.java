@@ -192,6 +192,17 @@ public class ListM<A> implements List<A> {
         return result;
     }
 
+    public <B> ListM<B> bindMaybe(Function.F1<? super A, Maybe<B>> func) {
+        ListM<B> result = new ListM<>();
+        for (A item : this) {
+            Maybe<B> b = func.invoke(item);
+            if (b.isPresent()) {
+                result.add(b.get());
+            }
+        }
+        return result;
+    }
+
     public <B> ListM<B> flatMap(Function.F1<? super A, ? extends ListM<B>> func) {
         // use flatMap is not effective from the viewpoint of performance
 //        return flatMap(new Function.F1<A, ListM<B>>() {

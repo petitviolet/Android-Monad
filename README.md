@@ -2,6 +2,7 @@
 
 [![Circle CI](https://circleci.com/gh/petitviolet/Android-Monad/tree/master.svg?style=svg)](https://circleci.com/gh/petitviolet/Android-Monad/tree/master)
 [![Download](https://api.bintray.com/packages/petitviolet/maven/android-monad/images/download.svg) ](https://bintray.com/petitviolet/maven/android-monad/\_latestVersion)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--Monad-green.svg?style=true)](https://android-arsenal.com/details/1/2786)
 
 This repository is Yet Another Android-M.
 

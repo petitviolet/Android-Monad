@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +9,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="@string/default_number"/>
+        android:text="@string/default_number"
+        android:textSize="24sp" />
 
     <LinearLayout
         android:id="@+id/income_container"
@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/default_number"/>
+            android:text="@string/default_number"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/textview_outcome"
@@ -35,7 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/default_number"/>
+            android:text="@string/default_number"
+            android:textSize="24sp" />
     </LinearLayout>
 
     <Button
@@ -43,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/income_container"
-        android:text="@string/plus_one"/>
+        android:text="@string/plus_one" />
 
     <LinearLayout
         android:id="@+id/form_label"
@@ -61,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:gravity="center"
-            android:text="@string/label_kind"/>
+            android:text="@string/label_kind" />
 
         <TextView
             android:id="@+id/label_plus_or_minus"
@@ -69,15 +71,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/label_plus_or_minus"/>
+            android:text="@string/label_plus_or_minus" />
+
         <TextView
             android:id="@+id/label_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:gravity="center"
-            android:text="@string/label_number"/>
+            android:text="@string/label_number" />
     </LinearLayout>
+
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -90,7 +94,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <include layout="@layout/input_column"/>
+
+            <include layout="@layout/input_column" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

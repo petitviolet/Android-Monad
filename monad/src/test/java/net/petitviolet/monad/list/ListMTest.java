@@ -82,6 +82,17 @@ public class ListMTest {
     }
 
     @Test
+    public void testFilterNot() {
+        ListM<String> result = mListM.filterNot(new Function.F1<String, Boolean>() {
+            @Override
+            public Boolean invoke(String s) {
+                return s.length() % 2 == 0;
+            }
+        });
+        assert result.equals(ListM.of("a", "ccc"));
+    }
+
+    @Test
     public void testFoldLeft() {
         String result = mListM.foldLeft("x", new Function.F2<String, String, String>() {
             @Override

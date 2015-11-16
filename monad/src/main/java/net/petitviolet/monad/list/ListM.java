@@ -7,6 +7,7 @@ import net.petitviolet.monad.func.Function;
 import net.petitviolet.monad.maybe.Maybe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -229,6 +230,13 @@ public class ListM<A> implements List<A> {
         return result;
     }
 
+    public ListM<A> filterNot(Function.F1<? super A, Boolean> func) {
+        ListM<A> that = this;
+        ListM<A> result = filter(func);
+        that.removeAll(result);
+        return that;
+    }
+
     public Tuple<ListM<A>, ListM<A>> partition(final Function.F1<? super A, Boolean> func) {
         ListM<A> fst = this.filter(func);
         ListM<A> snd = this.filter(new Function.F1<A, Boolean>() {
@@ -274,5 +282,10 @@ public class ListM<A> implements List<A> {
     @Override
     public boolean containsAll(Collection<?> collection) {
         return mList.containsAll(collection);
+    }
+
+    @Override
+    public String toString() {
+        return "ListM{ " + Arrays.toString(mList.toArray()) + " }";
     }
 }

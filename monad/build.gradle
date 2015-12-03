@@ -29,7 +29,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'net.petitviolet.android'
-version = '0.5.1'
+version = '0.5.2'
 def siteUrl = 'https://github.com/petitviolet/android-monad'
 def gitUrl = 'https://github.com/petitviolet/android-monad.git'
 

@@ -36,6 +36,11 @@ public class ListM<A> implements List<A> {
         return listM;
     }
 
+    public static <A> ListM<A> of(List<A> list) {
+        return new ListM<>(list);
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ListM) || ((ListM) o).size() != this.size()) {

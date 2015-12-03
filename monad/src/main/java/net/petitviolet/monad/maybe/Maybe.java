@@ -6,8 +6,8 @@ import net.petitviolet.monad.func.Function;
 
 /**
  * Maybe monad
- * null -> None
- * some value -> Just
+ * null = None
+ * some value = Just
  * @param <A>
  */
 abstract public class Maybe<A> {
